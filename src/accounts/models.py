@@ -61,7 +61,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=10, unique=True)
     rating = models.SmallIntegerField(null=True, blank=True)
-    picture = models.CharField(max_length=255)
+    picture = models.CharField(max_length=255, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
