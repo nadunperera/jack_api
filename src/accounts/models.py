@@ -66,8 +66,44 @@ class Profile(models.Model):
     modified = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.get_full_name()
+
     def get_full_name(self):
         if self.first_name and self.last_name:
             return f'{self.first_name} {self.last_name}'
         else:
             return self.user.email
+
+
+class Address(models.Model):
+    STATE = (
+        ('NSW', 'New South Wales'),
+        ('VIC', 'Victoria'),
+        ('SA', 'South Australia'),
+        ('WA', 'Western Australia'),
+        ('NT', 'Northern Territory'),
+        ('TAS', 'Tasmania'),
+    )
+    street = models.CharField(max_length=255)
+    suburb = models.CharField(max_length=255)
+    postcode = models.CharField(max_length=4)
+    state = models.CharField(max_length=3, choices=STATE)
+    country = models.CharField(max_length=255, default='Australia')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.profile.get_full_name()
+
+
+class Courier(models.Model):
+    drivers_license = models.SmallIntegerField()
+    drivers_license_expiry = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.profile.get_full_name()
