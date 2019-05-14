@@ -73,7 +73,7 @@ class Profile(models.Model):
         if self.first_name and self.last_name:
             return f'{self.first_name} {self.last_name}'
         else:
-            return self.user.email
+            return self.user.__str__()
 
 
 class Address(models.Model):
@@ -95,7 +95,7 @@ class Address(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.profile.get_full_name()
+        return self.profile.__str__()
 
 
 class Courier(models.Model):
@@ -106,4 +106,4 @@ class Courier(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.profile.get_full_name()
+        return self.profile.__str__()
